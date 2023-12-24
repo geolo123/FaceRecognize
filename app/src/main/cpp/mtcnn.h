@@ -28,6 +28,7 @@ struct Bbox {
     int x2;
     int y2;
     float area;
+    /** [右眼x, 左眼x, 鼻子x, 右嘴角x, 左嘴角x, 右眼y, 左眼y, 鼻子y, 右嘴角y, 左嘴角y] */
     float ppoint[10];
     float regreCoord[4];
 };

@@ -16,6 +16,7 @@ namespace jniutils {
         return vector;
     }
 
+    /** 将 手机图片格式 转换成 NCNN图片格式 */
     ncnn::Mat formatMat(unsigned char *imageData, int imageWidth, int imageHeight, int imageType) {
 
         switch (imageType) {
