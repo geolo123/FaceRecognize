@@ -114,8 +114,7 @@ Java_siren_ocean_recognize_FaceRecognize_extractFeature(JNIEnv *env, jobject ins
     }
 
     //根据不同数据类型转ncnn::Mat
-    ncnn::Mat ncnn_img = jniutils::formatMat((unsigned char *) imageData, imageWidth, imageHeight,
-                                             imageType);
+    ncnn::Mat ncnn_img = jniutils::formatMat((unsigned char *) imageData, imageWidth, imageHeight, imageType);
     if (ncnn_img.data == nullptr) {
         env->ReleaseByteArrayElements(imageData_, imageData, 0);
         return nullptr;

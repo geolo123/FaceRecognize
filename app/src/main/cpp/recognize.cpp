@@ -18,6 +18,10 @@ void Recognize::SetThreadNum(int threadNum) {
     threadnum = threadNum;
 }
 
+/**
+ * mobilefacenet识别 (ArcFace(也称InsightFace))
+ * 识别模型使用 insightface 的长度为128的mobilefacenet，用于提取人脸特征。
+ */
 void Recognize::RecogNet(ncnn::Mat &img_) {
     feature_out.resize(128);
     ncnn::Mat out;

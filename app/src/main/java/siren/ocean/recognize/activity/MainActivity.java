@@ -23,6 +23,7 @@ import java.util.concurrent.ExecutorService;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import pub.devrel.easypermissions.EasyPermissions;
 import siren.ocean.recognize.FaceRecognize;
 import siren.ocean.recognize.R;
@@ -184,8 +185,10 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         int width = sourceBitmap.getWidth();
         int height = sourceBitmap.getHeight();
         byte[] imageData = PhotoUtils.getPixelsRGBA(sourceBitmap);
+        // 获取到人脸的关键点数据
         int[] faceInfo = FaceRecognize.getInstance().detectFace(imageData, width, height, FaceRecognize.IMAGE_TYPE_RGBA);
         if (faceInfo != null && faceInfo.length > 1) {
+            // 将关键点数据转换成特征数据
             float[] feature = FaceRecognize.getInstance().featureExtract(imageData, width, height, faceInfo, FaceRecognize.IMAGE_TYPE_RGBA);
             Bitmap avatar = PhotoUtils.getAvatar(sourceBitmap, faceInfo);
             DialogHelper.showDialog(this, avatar, feature, memoryMap::put);
