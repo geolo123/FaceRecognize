@@ -33,12 +33,27 @@ bool cmpArea(Bbox lsh, Bbox rsh) {
 }
 
 MTCNN::MTCNN(AAssetManager *mgr) {
+    LOGD("****** geolo AAssetManager start 001 ******");
     Pnet.load_param(mgr, "det1.param");
+
+    LOGD("****** geolo AAssetManager start 002 ******");
     Pnet.load_model(mgr, "det1.bin");
+    //Pnet.load_param_bin(mgr, "det1.bin");
+
+    LOGD("****** geolo AAssetManager start 003 ******");
     Rnet.load_param(mgr, "det2.param");
+
+    LOGD("****** geolo AAssetManager start 004 ******");
     Rnet.load_model(mgr, "det2.bin");
+    // Rnet.load_param_bin(mgr, "det2.bin");
+
+    LOGD("****** geolo AAssetManager start 005 ******");
     Onet.load_param(mgr, "det3.param");
+
+    LOGD("****** geolo AAssetManager start 006 ******");
     Onet.load_model(mgr, "det3.bin");
+    // Onet.load_param_bin(mgr, "det3.bin");
+    LOGD("****** geolo AAssetManager start 007 ******");
 }
 
 //MTCNN::MTCNN(){}

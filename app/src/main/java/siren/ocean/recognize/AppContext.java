@@ -9,6 +9,7 @@ import android.app.Application;
  */
 public class AppContext extends Application {
 
+    public static boolean isRunning = false;
     private static AppContext app;
 
     @Override

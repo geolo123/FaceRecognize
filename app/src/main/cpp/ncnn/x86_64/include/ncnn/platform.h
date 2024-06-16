@@ -20,22 +20,50 @@
 #define NCNN_SIMPLEOCV 0
 #define NCNN_SIMPLEOMP 0
 #define NCNN_SIMPLESTL 0
+#define NCNN_SIMPLEMATH 0
 #define NCNN_THREADS 1
 #define NCNN_BENCHMARK 0
+#define NCNN_C_API 1
 #define NCNN_PLATFORM_API 1
 #define NCNN_PIXEL 1
 #define NCNN_PIXEL_ROTATE 1
 #define NCNN_PIXEL_AFFINE 1
 #define NCNN_PIXEL_DRAWING 1
 #define NCNN_VULKAN 0
+#define NCNN_SIMPLEVK 1
+#define NCNN_SYSTEM_GLSLANG 0
 #define NCNN_RUNTIME_CPU 1
+#define NCNN_GNU_INLINE_ASM 1
+#define NCNN_AVX 1
+#define NCNN_XOP 1
+#define NCNN_FMA 1
+#define NCNN_F16C 1
 #define NCNN_AVX2 1
+#define NCNN_AVXVNNI 1
+#define NCNN_AVX512 1
+#define NCNN_AVX512VNNI 1
+#define NCNN_AVX512BF16 1
+#define NCNN_AVX512FP16 1
+#define NCNN_VFPV4 0
 #define NCNN_ARM82 0
 #define NCNN_ARM82DOT 0
+#define NCNN_ARM82FP16FML 0
+#define NCNN_ARM84BF16 0
+#define NCNN_ARM84I8MM 0
+#define NCNN_ARM86SVE 0
+#define NCNN_ARM86SVE2 0
+#define NCNN_ARM86SVEBF16 0
+#define NCNN_ARM86SVEI8MM 0
+#define NCNN_ARM86SVEF32MM 0
+#define NCNN_MSA 0
+#define NCNN_LSX 0
+#define NCNN_MMI 0
 #define NCNN_RVV 0
 #define NCNN_INT8 1
+#define NCNN_BF16 1
+#define NCNN_FORCE_INLINE 1
 
-#define NCNN_VERSION_STRING "1.0.20210525"
+#define NCNN_VERSION_STRING "1.0.20240410"
 
 #include "ncnn_export.h"
 
@@ -208,6 +236,28 @@ private:
     Mutex& mutex;
 };
 
+static inline void swap_endianness_16(void* x)
+{
+    unsigned char* xx = (unsigned char*)x;
+    unsigned char x0 = xx[0];
+    unsigned char x1 = xx[1];
+    xx[0] = x1;
+    xx[1] = x0;
+}
+
+static inline void swap_endianness_32(void* x)
+{
+    unsigned char* xx = (unsigned char*)x;
+    unsigned char x0 = xx[0];
+    unsigned char x1 = xx[1];
+    unsigned char x2 = xx[2];
+    unsigned char x3 = xx[3];
+    xx[0] = x3;
+    xx[1] = x2;
+    xx[2] = x1;
+    xx[3] = x0;
+}
+
 } // namespace ncnn
 
 #if NCNN_SIMPLESTL
@@ -218,6 +268,23 @@ private:
 #include <vector>
 #include <string>
 #endif
+
+// simplemath
+#if NCNN_SIMPLEMATH
+#include "simplemath.h"
+#else
+#include <math.h>
+#include <fenv.h>
+#endif
+
+#if NCNN_VULKAN
+#if NCNN_SIMPLEVK
+#include "simplevk.h"
+#else
+#include <vulkan/vulkan.h>
+#endif
+#include "vulkan_header_fix.h"
+#endif // NCNN_VULKAN
 
 #endif // __cplusplus
 
@@ -234,6 +301,25 @@ private:
 #endif // NCNN_PLATFORM_API && __ANDROID_API__ >= 8
 #else
 #define NCNN_LOGE(...)
+#endif
+
+
+#if NCNN_FORCE_INLINE
+#ifdef _MSC_VER
+    #define NCNN_FORCEINLINE __forceinline
+#elif defined(__GNUC__)
+    #define NCNN_FORCEINLINE inline __attribute__((__always_inline__))
+#elif defined(__CLANG__)
+    #if __has_attribute(__always_inline__)
+        #define NCNN_FORCEINLINE inline __attribute__((__always_inline__))
+    #else
+        #define NCNN_FORCEINLINE inline
+    #endif
+#else
+    #define NCNN_FORCEINLINE inline
+#endif
+#else
+    #define NCNN_FORCEINLINE inline
 #endif
 
 #endif // NCNN_PLATFORM_H

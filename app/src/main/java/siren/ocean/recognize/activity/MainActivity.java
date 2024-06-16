@@ -26,6 +26,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import pub.devrel.easypermissions.EasyPermissions;
 import com.geolo.jiang.face.api.FaceRecognize;
+
+import siren.ocean.recognize.AppContext;
 import siren.ocean.recognize.R;
 import siren.ocean.recognize.entity.CameraParameter;
 import siren.ocean.recognize.util.CommonUtil;
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppContext.isRunning = true;
         setContentView(R.layout.activity_main);
         initView();
         initPreview();
@@ -239,5 +242,6 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         detectThread.shutdown();
         recognizeThread.shutdown();
         FaceRecognize.getInstance().faceDeInit();
+        AppContext.isRunning = false;
     }
 }

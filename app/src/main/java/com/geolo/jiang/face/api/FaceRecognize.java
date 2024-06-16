@@ -15,7 +15,7 @@ public class FaceRecognize {
     static {
         try {
             System.loadLibrary("geoloRecognize");
-            Log.d("FaceRecognize", " success");
+            Log.d("FaceRecognize", "****** geolo JNI loadLibrary success ****** ");
         } catch (UnsatisfiedLinkError e) {
             Log.e("FaceRecognize", "library not found");
         }

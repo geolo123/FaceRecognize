@@ -18,11 +18,13 @@ extern "C" {
 JNIEXPORT jboolean JNICALL
 Java_com_geolo_jiang_face_api_FaceRecognize_initModels(JNIEnv *env, jobject instance,
                                                     jobject assetManager) {
-
+    LOGD("****** geolo init models start ******");
     AAssetManager *mgr = AAssetManager_fromJava(env, assetManager);
+    LOGD("****** geolo init models start 001 ******");
     mtcnn = new MTCNN(mgr);
+    LOGD("****** geolo init models start 002 ******");
     recognize = new Recognize(mgr);
-    LOGD("init models success");
+    LOGD("****** geolo init models success ******");
     return (jboolean) true;
 }
 
@@ -45,12 +47,14 @@ Java_com_geolo_jiang_face_api_FaceRecognize_faceDetect(JNIEnv *env,
      * 意思就是在ReleaseByteArrayElements被调用之前 这个数据一直有效。
      * 所以使用 getByteArrayElements 就必须使用 releaseByteArrayElements，否则会造成内存泄漏。
      */
+    LOGD("****** geolo JNI faceDetect 0001 ******");
     jbyte *imageData = env->GetByteArrayElements(imageData_, nullptr);
     if (nullptr == imageData) {
         env->ReleaseByteArrayElements(imageData_, imageData, 0);
         return nullptr;
     }
 
+    LOGD("****** geolo JNI faceDetect 0002 ******");
     //根据不同数据类型转 ncnn::Mat
     ncnn::Mat ncnn_img = jniutils::formatMat((unsigned char *) imageData, imageWidth, imageHeight, imageType);
     if (ncnn_img.data == nullptr) {
@@ -75,8 +79,10 @@ Java_com_geolo_jiang_face_api_FaceRecognize_faceDetect(JNIEnv *env,
      *
      *
      */
+    LOGD("****** geolo JNI faceDetect 0003 ******");
     std::vector<Bbox> finalBbox;
     mtcnn->detectMaxFace(ncnn_img, finalBbox);
+    LOGD("****** geolo JNI faceDetect 0004 ******");
     auto num_face = static_cast<int32_t>(finalBbox.size());
     int out_size = 1 + num_face * 14; // 这个14，是有识别框的4个坐标点 + 人脸关键点的10个坐标点 组成；
     int *faceInfo = new int[out_size];
@@ -90,11 +96,13 @@ Java_com_geolo_jiang_face_api_FaceRecognize_faceDetect(JNIEnv *env,
             faceInfo[14 * i + 5 + j] = static_cast<int>(finalBbox[i].ppoint[j]);
         }
     }
-
+    LOGD("****** geolo JNI faceDetect 0005 ******");
     jintArray tFaceInfo = env->NewIntArray(out_size);
     env->SetIntArrayRegion(tFaceInfo, 0, out_size, faceInfo);
+    LOGD("****** geolo JNI faceDetect 0006 ******");
     // 最后要释放手机图片的资源池
     env->ReleaseByteArrayElements(imageData_, imageData, 0);
+    LOGD("****** geolo JNI faceDetect 0007 ******");
     return tFaceInfo;
 }
 
@@ -133,9 +141,10 @@ Java_com_geolo_jiang_face_api_FaceRecognize_extractFeature(JNIEnv *env, jobject 
 
 JNIEXPORT jboolean JNICALL
 Java_com_geolo_jiang_face_api_FaceRecognize_faceDeInit(JNIEnv *env, jobject instance) {
+    LOGD("****** geolo JNI faceDeInit release start **********");
     delete mtcnn;
     delete recognize;
-    LOGD("faceDeInit release success");
+    LOGD("****** geolo JNI faceDeInit release success **********");
     return (jboolean) true;
 }
 }
