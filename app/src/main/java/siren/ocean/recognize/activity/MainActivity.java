@@ -25,7 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import pub.devrel.easypermissions.EasyPermissions;
-import siren.ocean.recognize.FaceRecognize;
+import com.geolo.jiang.face.api.FaceRecognize;
 import siren.ocean.recognize.R;
 import siren.ocean.recognize.entity.CameraParameter;
 import siren.ocean.recognize.util.CommonUtil;

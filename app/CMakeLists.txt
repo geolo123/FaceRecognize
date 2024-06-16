@@ -16,7 +16,7 @@ set(ncnn_DIR ${CMAKE_SOURCE_DIR}/src/main/cpp/ncnn/${ANDROID_ABI}/lib/cmake/ncnn
 find_package(ncnn REQUIRED)
 
 #编译为动态库
-add_library(recognize SHARED ${FACE_COMPILE_CODE})
+add_library(geoloRecognize SHARED ${FACE_COMPILE_CODE})
 
 #添加工程所依赖的库
-target_link_libraries(recognize ncnn)
+target_link_libraries(geoloRecognize ncnn)

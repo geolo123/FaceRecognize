@@ -1,4 +1,4 @@
-package siren.ocean.recognize;
+package com.geolo.jiang.face.api;
 
 import android.content.res.AssetManager;
 import android.util.Log;
@@ -14,7 +14,7 @@ public class FaceRecognize {
 
     static {
         try {
-            System.loadLibrary("recognize");
+            System.loadLibrary("geoloRecognize");
             Log.d("FaceRecognize", " success");
         } catch (UnsatisfiedLinkError e) {
             Log.e("FaceRecognize", "library not found");

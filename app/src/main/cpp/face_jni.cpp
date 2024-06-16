@@ -16,7 +16,7 @@ Recognize *recognize;
 extern "C" {
 
 JNIEXPORT jboolean JNICALL
-Java_siren_ocean_recognize_FaceRecognize_initModels(JNIEnv *env, jobject instance,
+Java_com_geolo_jiang_face_api_FaceRecognize_initModels(JNIEnv *env, jobject instance,
                                                     jobject assetManager) {
 
     AAssetManager *mgr = AAssetManager_fromJava(env, assetManager);
@@ -27,7 +27,7 @@ Java_siren_ocean_recognize_FaceRecognize_initModels(JNIEnv *env, jobject instanc
 }
 
 JNIEXPORT jintArray JNICALL
-Java_siren_ocean_recognize_FaceRecognize_faceDetect(JNIEnv *env,
+Java_com_geolo_jiang_face_api_FaceRecognize_faceDetect(JNIEnv *env,
                                                     jobject instance,
                                                     jbyteArray imageData_,
                                                     jint imageWidth,
@@ -99,7 +99,7 @@ Java_siren_ocean_recognize_FaceRecognize_faceDetect(JNIEnv *env,
 }
 
 JNIEXPORT jfloatArray JNICALL
-Java_siren_ocean_recognize_FaceRecognize_extractFeature(JNIEnv *env, jobject instance,
+Java_com_geolo_jiang_face_api_FaceRecognize_extractFeature(JNIEnv *env, jobject instance,
                                                         jbyteArray imageData_,
                                                         jint imageWidth,
                                                         jint imageHeight,
@@ -132,7 +132,7 @@ Java_siren_ocean_recognize_FaceRecognize_extractFeature(JNIEnv *env, jobject ins
 }
 
 JNIEXPORT jboolean JNICALL
-Java_siren_ocean_recognize_FaceRecognize_faceDeInit(JNIEnv *env, jobject instance) {
+Java_com_geolo_jiang_face_api_FaceRecognize_faceDeInit(JNIEnv *env, jobject instance) {
     delete mtcnn;
     delete recognize;
     LOGD("faceDeInit release success");
