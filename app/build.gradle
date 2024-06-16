@@ -18,6 +18,10 @@ android {
             abiFilters 'armeabi-v7a', "arm64-v8a"
             //abiFilters 'armeabi-v7a'
         }
+
+        lintOptions {
+            abortOnError false
+        }
     }
 
     externalNativeBuild {
@@ -27,28 +31,33 @@ android {
         }
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-
     signingConfigs {
         debug {
             keyAlias 'geoloKey'
             keyPassword '123123'
-            storeFile file('geolo-key')
+            storeFile file('geoloKey.jks')
             storePassword '123123'
         }
         release {
-            storeFile file('geolo-key')
+            storeFile file('geoloKey.jks')
             storePassword "123123"
             keyAlias 'geoloKey'
             keyPassword "123123"
         }
     }
 
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
